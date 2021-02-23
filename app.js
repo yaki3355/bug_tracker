@@ -33,6 +33,12 @@ app.use(signRoute);
 app.use('/users', userRoute);
 app.use('/bugs', bugRoute);
 
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.resolve('public')));
+
+    app.get(/.*/, (req, res) => res.sendFile(path.resolve('public/index.html')));
+}
+
 app.use((req, res) => {
     res.status(404).send();
 });
@@ -41,12 +47,6 @@ app.use((err, req, res, next) => {
     console.log('Internal error: ', err);
     res.status(500).send();
 });
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.resolve('public')));
-
-    app.get(/.*/, (req, res) => res.sendFile(path.resolve('public/index.html')));
-}
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log('App listening on port ' + port));
