@@ -47,4 +47,8 @@ router.get('/logout', async (req, res, next) => {
     res.send();
 });
 
+router.get('/is_logged_in', async (req, res, next) => {
+    res.send(req.isAuthenticated());
+});
+
 module.exports = router;

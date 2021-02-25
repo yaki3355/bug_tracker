@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-if (process.env.NODE_ENV === 'development') require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 expressSession = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
@@ -35,8 +35,6 @@ app.use('/bugs', bugRoute);
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.resolve('public')));
-
-    app.get(/.*/, (req, res) => res.sendFile(path.resolve('public/index.html')));
 }
 
 app.use((req, res) => {
